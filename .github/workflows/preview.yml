@@ -5,6 +5,10 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches: [main]
 
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' && github.event.action != 'closed' }}
+
 jobs:
   preview:
     runs-on: ubuntu-latest
